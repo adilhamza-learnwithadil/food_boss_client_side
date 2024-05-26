@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.menu li > *:not(ul, .menu-title, details, .btn):active, .menu li > *:not(ul, .menu-title, details, .btn).active, .menu li > details > summary:active{
+    background: none;
+    color: #FFB600;
+}
+
+#about{
+    background-image: url('https://i.ibb.co/hLKwP1t/chef-service.jpg');
+    background-repeat: no-repeat;
+}
+
+#section_cover_1{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.363), rgba(0, 0, 0, 0.356)), url('https://i.ibb.co/rQ4GFZ0/dessert-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#section_cover_2{
+    background-image: url('https://i.ibb.co/6875rcP/thumb-1920-644361.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#section_cover_3{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.363), rgba(0, 0, 0, 0.356)), url('https://i.ibb.co/3BSWYDD/image.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#section_cover_4{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.363), rgba(0, 0, 0, 0.356)), url('https://i.ibb.co/M16Rgws/image.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#featured_food{
+    background:  linear-gradient(rgba(0, 0, 0, 0.582), rgba(0, 0, 0, 0.575)), url('https://i.ibb.co/JvTPxxK/Rectangle-14.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+#menu{
+    background:  linear-gradient(rgba(0, 0, 0, 0.582), rgba(0, 0, 0, 0.575)), url('https://i.ibb.co/XZt4sq9/banner3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+#order{
+    background:  linear-gradient(rgba(0, 0, 0, 0.582), rgba(0, 0, 0, 0.575)), url('https://i.ibb.co/SVCmzhV/banner2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: bottom;
+}
+
