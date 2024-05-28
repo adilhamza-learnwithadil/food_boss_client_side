@@ -51,6 +51,12 @@
     background-size: cover;
     background-attachment: fixed;
 }
+#login_signup{
+    background: url('https://i.ibb.co/jT2Tf0B/authentication.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
 
 #order{
     background:  linear-gradient(rgba(0, 0, 0, 0.582), rgba(0, 0, 0, 0.575)), url('https://i.ibb.co/SVCmzhV/banner2.jpg');
