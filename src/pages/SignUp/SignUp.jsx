@@ -1,27 +1,51 @@
 import '../../index.css'
 import login from '../../assets/others/authentication2.png'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa6";
 import { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
 import toast, { Toaster } from 'react-hot-toast';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import Social from '../LogIn/Social';
 
 
 const SignUp = () => {
-    const { createUser } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic()
+    const { createUser, updateUser } = useContext(AuthContext);
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
-        watch,
+        reset,
         formState: { errors },
     } = useForm();
 
     const onSubmit = (data) => {
         createUser(data.email, data.password)
             .then(result => { 
+
                 toast.success('You are suxcessfully signed up')
+                updateUser(data.name, data.photo)
+                .then(() => {
+                    const userInfo = {
+                        name: data.name,
+                        email: data.email,
+                    }
+                    axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        if(res.data.insertedId){
+                            navigate('/')
+                        }
+                    })
+
+
+                    reset()
+                })
+                .catch(error => {
+                    toast.error(error);
+                })
             })
             .catch(error => {
                 toast.error(error);
@@ -57,6 +81,13 @@ const SignUp = () => {
                             </div>
                             <div className="form-control">
                                 <label className="label">
+                                    <span className="label-text">Photo URL</span>
+                                </label>
+                                <input type="text"  {...register("photo", { required: true })} name='photo' placeholder="Your Photo" className="input input-bordered" />
+                                {errors.photo && <span className='text-red-600 mt-2'>Photo is required</span>}
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
                                 <input type="email"  {...register("email", { required: true })} name='email' placeholder="Your Email" className="input input-bordered" />
@@ -76,6 +107,7 @@ const SignUp = () => {
                             </div>
                         </form>
                         <p className='text-center text-[#FFB600]'>Already registered? <Link to='/login' className='font-bold'>Go to log in</Link></p>
+                        <Social></Social>
                     </div>
                 </div>
             </div>

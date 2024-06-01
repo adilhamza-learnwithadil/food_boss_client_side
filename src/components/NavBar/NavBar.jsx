@@ -2,9 +2,13 @@ import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast, { Toaster } from "react-hot-toast";
+import { PiShoppingCartBold } from "react-icons/pi";
+import useCart from "../../hooks/useCart";
+
 
 const NavBar = () => {
     const { user, logOut } = useContext(AuthContext)
+    const [cart] = useCart();
 
 
     const handleLogOut = () => {
@@ -22,6 +26,8 @@ const NavBar = () => {
         <li><NavLink to='/contact_us'>Contact Us</NavLink></li>
         <li><NavLink to='/menu'>Our Menu</NavLink></li>
         <li><NavLink to='/order_food/salad'>Order Food</NavLink></li>
+        <li><Link to='/dashbord/cart' className="btn text-2xl px-3 rounded-full"><PiShoppingCartBold />
+            <div className="absolute -bottom-1 left-7 badge badge-secondary bg-[#FFB600] border-[#FFB600]">{cart.length}</div> </Link></li>
         {
             user ?
                 <><li><button onClick={handleLogOut}><a className="btn bg-[#FFB600] border-[#FFB600] px-8 text-white hover:bg-[#fff] hover:text-[#FFB600]">LogOut</a></button></li></>

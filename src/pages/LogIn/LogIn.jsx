@@ -1,45 +1,60 @@
 import '../../index.css'
 import login from '../../assets/others/authentication2.png'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa6";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../providers/AuthProvider';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import toast, { Toaster } from 'react-hot-toast';
+import useAuth from '../../hooks/useAuth';
+import Social from './Social';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
 
 
 
 const LogIn = () => {
-    const {logInUser, user} = useContext(AuthContext)
-
-
-    // const captchaRef = useRef();
+    const axiosPublic = useAxiosPublic()
+    const {logInUser, user} = useAuth()
     const [disabled, setDisabled] = useState(true);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/'
 
 
     useEffect(() => {
         loadCaptchaEnginge(6);
     }, [])
+
+
     const handleLogin = e => {
         e.preventDefault()
-
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
-
+        
         if(user){
             toast.error("You are alredy Loged In");
             return;
         }
 
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+
+
         logInUser(email, password)
-        .then(result => {
-            toast.success('You are suxcessfully Loged In')
-        })
-        .catch(error => {
-            toast.error(error);
-        })
+            .then(result => {
+                toast.success('You are suxcessfully Loged In')
+                const userInfo = {
+                    name: user.displayName,
+                    email: email,
+                }
+                axiosPublic.post('/users', userInfo)
+                .then(res => {
+                    if(res.data.insertedId){
+                        navigate(from, {replace: true})
+                    }
+                })
+            })
     }
 
     const handleValidateCaptcha = e => {
@@ -88,7 +103,7 @@ const LogIn = () => {
                             </div>
                             <div className="form-control mt-3 mb-0">
                                 <label className="input input-bordered flex items-center gap-2">
-                                    <input onBlur={handleValidateCaptcha} type="text" name='captcha' placeholder="Type the captcha" className='w-full' required />
+                                    <input onBlur={handleValidateCaptcha} type="text" name='captcha' placeholder="Type the captcha" className='w-full' />
                                 </label>
                                 <label className="label">
                                     <LoadCanvasTemplate />
@@ -99,6 +114,7 @@ const LogIn = () => {
                             </div>
                         </form>
                         <p className='text-center text-[#FFB600]'>New here? <Link to='/signup' className='font-bold'>Create a New Account</Link></p>
+                        <Social></Social>
                     </div>
                 </div>
             </div>
